@@ -22,8 +22,9 @@
 //
 //}
 
-
 package com.vamshi.mailservice.service;
+
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,23 +50,27 @@ public class MailService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("api-key", apiKey);
 
-        String json = """
-        {
-          "sender": {
-            "email": "mukthavamshi123@gmail.com",
-            "name": "SecureCard"
-          },
-          "to": [
-            { "email": "%s" }
-          ],
-          "subject": "%s",
-          "htmlContent": "<p>%s</p>"
-        }
-        """.formatted(to, subject, body);
+        // Sender
+        Map<String, String> sender = new HashMap<>();
+        sender.put("email", "mukthavamshi123@gmail.com@gmail.com");
+        sender.put("name", "SecureCard");
 
-        HttpEntity<String> request = new HttpEntity<>(json, headers);
+        // Receiver
+        Map<String, String> receiver = new HashMap<>();
+        receiver.put("email", to);
+
+        List<Map<String, String>> toList = new ArrayList<>();
+        toList.add(receiver);
+
+        // Request body
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("sender", sender);
+        payload.put("to", toList);
+        payload.put("subject", subject);
+        payload.put("htmlContent", "<p>" + body + "</p>");
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
 
         restTemplate.postForObject(url, request, String.class);
     }
 }
-
