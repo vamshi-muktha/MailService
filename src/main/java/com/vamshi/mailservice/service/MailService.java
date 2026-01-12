@@ -52,7 +52,7 @@ public class MailService {
 
         // Sender
         Map<String, String> sender = new HashMap<>();
-        sender.put("email", "mukthavamshi123@gmail.com@gmail.com");
+        sender.put("email", "mukthavamshi123@gmail");
         sender.put("name", "SecureCard");
 
         // Receiver
